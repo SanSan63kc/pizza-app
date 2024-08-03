@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { Menu } from './pages/Menu/Menu.tsx'
+import { createBrowserRouter, defer, RouterProvider } from 'react-router-dom'
+//import { Menu } from './pages/Menu/Menu.tsx'
 import { Cart } from './pages/Cart/Cart.tsx'
-import { Error } from './pages/Error/Error.tsx'
+import { Error as ErrorPage } from './pages/Error/Error.tsx'
 import { Layout } from './layout/Layout/Layout.tsx'
 import { ProductPage } from './pages/Product/Product.tsx'
 import axios from 'axios'
 import { PREFIX } from './helpers/API.ts'
+
+let Menu = lazy(() => import("./pages/Menu/Menu.tsx"))
 
 let router = createBrowserRouter([
   {
@@ -17,7 +19,7 @@ let router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Menu />,
+        element: <Suspense fallback={<>Загрузка...</>}><Menu /></Suspense>,
       },
       {
         path: "/cart",
@@ -26,21 +28,36 @@ let router = createBrowserRouter([
       {
         path: "/product/:id",
         element: <ProductPage />,
+        errorElement: <>Ошибка</>,
         loader: async ({ params }) => {
-          await new Promise<void>((resolve) => {
+
+          return defer({
+            data: new Promise((resolve, reject) => {
+              setTimeout(() => {
+                axios.get(`${PREFIX}/products/${params.id}`).then(data=>resolve(data))
+                .catch(e=>reject(e))
+              }, 2000)
+            })
+          })
+
+          /* return defer({
+            data: axios.get(`${PREFIX}/products/${params.id}`).then(data=>data)
+          }) */
+
+          /* await new Promise<void>((resolve) => {
             setTimeout(() => {
-                resolve()
+              resolve()
             }, 2000)
-        })
+          })
           let { data } = await axios.get(`${PREFIX}/products/${params.id}`)
-          return data
+          return data */
         }
       }
     ]
   },
   {
     path: "*",
-    element: <Error />
+    element: <ErrorPage />
   },
 ])
 
