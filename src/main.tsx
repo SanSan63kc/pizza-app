@@ -9,6 +9,9 @@ import { Layout } from './layout/Layout/Layout.tsx'
 import { ProductPage } from './pages/Product/Product.tsx'
 import axios from 'axios'
 import { PREFIX } from './helpers/API.ts'
+import { AuthLayout } from './layout/Auth/AuthLayout.tsx'
+import { Login } from './pages/Login/Login.tsx'
+import { Register } from './pages/Register/Register.tsx'
 
 let Menu = lazy(() => import("./pages/Menu/Menu.tsx"))
 
@@ -39,19 +42,21 @@ let router = createBrowserRouter([
               }, 2000)
             })
           })
-
-          /* return defer({
-            data: axios.get(`${PREFIX}/products/${params.id}`).then(data=>data)
-          }) */
-
-          /* await new Promise<void>((resolve) => {
-            setTimeout(() => {
-              resolve()
-            }, 2000)
-          })
-          let { data } = await axios.get(`${PREFIX}/products/${params.id}`)
-          return data */
         }
+      }
+    ]
+  },
+  {
+    path: "/auth",
+    element: <AuthLayout></AuthLayout>,
+    children:[
+      {
+        path: "login",
+        element: <Login></Login>
+      },
+      {
+        path: "register",
+        element: <Register></Register>
       }
     ]
   },
