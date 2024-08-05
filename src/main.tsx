@@ -2,7 +2,6 @@ import React, { lazy, Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import { createBrowserRouter, defer, RouterProvider } from 'react-router-dom'
-//import { Menu } from './pages/Menu/Menu.tsx'
 import { Cart } from './pages/Cart/Cart.tsx'
 import { Error as ErrorPage } from './pages/Error/Error.tsx'
 import { Layout } from './layout/Layout/Layout.tsx'
@@ -12,13 +11,14 @@ import { PREFIX } from './helpers/API.ts'
 import { AuthLayout } from './layout/Auth/AuthLayout.tsx'
 import { Login } from './pages/Login/Login.tsx'
 import { Register } from './pages/Register/Register.tsx'
+import { RequireAuth } from './helpers/RequireAuth.tsx'
 
 let Menu = lazy(() => import("./pages/Menu/Menu.tsx"))
 
 let router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: <RequireAuth><Layout /></RequireAuth>,
     children: [
       {
         path: "/",
