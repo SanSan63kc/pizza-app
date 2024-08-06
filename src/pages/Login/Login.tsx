@@ -7,6 +7,9 @@ import { FormEvent, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { PREFIX } from "../../helpers/API";
 import { LoginResponse } from "../../interfaces/auth.interface";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/store";
+import { userActions } from "../../store/user.slice";
 
 export type LoginForm = {
     email: {
@@ -20,6 +23,7 @@ export type LoginForm = {
 export function Login() {
     let [error, setError] = useState<string | null>()
     let navigate = useNavigate()
+    let dispatch = useDispatch<AppDispatch>()
 
     let submit = async (e: FormEvent) => {
         e.preventDefault()
@@ -39,6 +43,7 @@ export function Login() {
             })
             console.log(data)
             localStorage.setItem("jwt", data.access_token)
+            dispatch(userActions.addJwt(data.access_token))
             navigate("/")
         } catch (e) {
             if (e instanceof AxiosError) {
