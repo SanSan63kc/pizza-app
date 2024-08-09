@@ -21,7 +21,6 @@ export interface UserState {
 
 let initialState: UserState = {
     jwt: loadState<UserPersistantState>(JWT_PERSISTANT_STATE)?.jwt ?? null,
-
 }
 
 export let login = createAsyncThunk("user/login",
