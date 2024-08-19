@@ -24,17 +24,18 @@ export function Cart() {
 
     useEffect(() => {
         loadAllItems()
-        console.log(items)
+        /* console.log(items) */
     }, [items])
 
     return <>
         <Headling className={styles["headling"]}>Корзина</Headling>
-        {items.map(i => {
+        {items.length>0 && items.map(i => {
             let product = cartProducts.find(p => p.id==i.id)
             if (!product){
                 return 
             }
             return <CartItem key={product.id} count={i.count} {...product}/>
         })}
+        {items.length===0 && <div>Корзина пуста...</div>}
     </>
 }
