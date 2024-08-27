@@ -1,0 +1,4 @@
+.productPage{
+    display: flex;
+    flex-direction: column;
+}

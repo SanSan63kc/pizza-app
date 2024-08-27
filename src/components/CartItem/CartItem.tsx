@@ -13,10 +13,11 @@ function CartItem(props: CartItemProps) {
     }
 
     let descrease = () => {
-        dispatch(cartActions.add(props.id))
+        dispatch(cartActions.remove(props.id))
     }
 
     let remove = () => {
+        dispatch(cartActions.delete(props.id))
     }
 
     return (
@@ -24,15 +25,15 @@ function CartItem(props: CartItemProps) {
             <div className={styles["image"]} style={{ backgroundImage: `url("${props.image}")` }}></div>
             <div className={styles["description"]}>
                 <div className={styles["name"]}>{props.name}</div>
-                <div className={styles["currency"]}>Р</div>
+                <div className={styles["price"]}>{props.price}&nbsp;Р</div>
             </div>
             <div className={styles["actions"]}>
                 <button className={styles["button"]} onClick={descrease}>
-                    <img className={styles["small-icon"]} src="/cart-button-icon.svg"></img>
+                    <img className={styles["small-icon"]} src="/minus.svg"></img>
                 </button>
-                <div>{props.count}</div>
+                <div className={styles["number"]}>{props.count}</div>
                 <button className={styles["button"]} onClick={increase}>
-                    <img className={styles["small-icon"]} src="/cart-button-icon.svg"></img>
+                    <img className={styles["small-icon"]} src="/plus.svg"></img>
                 </button>
                 <button className={styles["remove"]} onClick={remove}>
                     <img className={styles["small-icon"]} src="/cart-button-icon.svg"></img>
