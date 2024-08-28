@@ -32,7 +32,7 @@ export function ProductPage() {
                         </div>
                         {/* Цена */}
                         <div className={styles["price"]}>
-                            Цена - {data.price}
+                            Цена - <span>{data.price} Р</span>
                         </div>
                         {/* Рейтинг */}
                         <div  className={styles["rating"]}>
